@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SalesManagerDB.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="entidades">
+          <Key>
+            <PropertyRef Name="entidadId" />
+          </Key>
+          <Property Name="entidadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="ajax" Type="varchar" MaxLength="250" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="entidadesCampos">
+          <Key>
+            <PropertyRef Name="entidadCampoId" />
+          </Key>
+          <Property Name="entidadCampoId" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="entidadId" Type="int" Nullable="false" />
+          <Property Name="tipoCampoId" Type="int" Nullable="false" />
+          <Property Name="id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="class" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="minLength" Type="int" />
+          <Property Name="maxLength" Type="int" />
+          <Property Name="type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="placeholder" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="required" Type="bit" Nullable="false" />
+          <Property Name="cols" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="onchange" Type="varchar" MaxLength="250" />
+          <Property Name="onfocus" Type="varchar" MaxLength="250" />
+          <Property Name="onclick" Type="varchar" MaxLength="250" />
+          <Property Name="activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="menus">
+          <Key>
+            <PropertyRef Name="id_menu" />
+          </Key>
+          <Property Name="id_menu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_menu_padre" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="menu" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="url_mvc" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="openInNewWindow" Type="bit" Nullable="false" />
+          <Property Name="icon_ad" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="perfiles">
+          <Key>
+            <PropertyRef Name="perfilId" />
+          </Key>
+          <Property Name="perfilId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="perfilMenus">
+          <Key>
+            <PropertyRef Name="perfilMenuId" />
+          </Key>
+          <Property Name="perfilMenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_menu" Type="int" Nullable="false" />
+          <Property Name="perfilId" Type="int" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="personas">
+          <Key>
+            <PropertyRef Name="personaId" />
+          </Key>
+          <Property Name="personaId" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuarioId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="titulo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="apaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="amaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tipoCampos">
+          <Key>
+            <PropertyRef Name="tipoCampoId" />
+          </Key>
+          <Property Name="tipoCampoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="usuarioId" />
+          </Key>
+          <Property Name="usuarioId" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="perfilId" Type="int" Nullable="false" />
+          <Property Name="GUID" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_entidadesCampos_entidades">
+          <End Role="entidades" Type="Self.entidades" Multiplicity="1" />
+          <End Role="entidadesCampos" Type="Self.entidadesCampos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entidades">
+              <PropertyRef Name="entidadId" />
+            </Principal>
+            <Dependent Role="entidadesCampos">
+              <PropertyRef Name="entidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_entidadesCampos_tipoCampos">
+          <End Role="tipoCampos" Type="Self.tipoCampos" Multiplicity="1" />
+          <End Role="entidadesCampos" Type="Self.entidadesCampos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipoCampos">
+              <PropertyRef Name="tipoCampoId" />
+            </Principal>
+            <Dependent Role="entidadesCampos">
+              <PropertyRef Name="tipoCampoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_perfilMenus_menus">
+          <End Role="menus" Type="Self.menus" Multiplicity="1" />
+          <End Role="perfilMenus" Type="Self.perfilMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menus">
+              <PropertyRef Name="id_menu" />
+            </Principal>
+            <Dependent Role="perfilMenus">
+              <PropertyRef Name="id_menu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_perfilMenus_perfiles">
+          <End Role="perfiles" Type="Self.perfiles" Multiplicity="1" />
+          <End Role="perfilMenus" Type="Self.perfilMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfiles">
+              <PropertyRef Name="perfilId" />
+            </Principal>
+            <Dependent Role="perfilMenus">
+              <PropertyRef Name="perfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_personas_usuarios">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="0..1" />
+          <End Role="personas" Type="Self.personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="usuarioId" />
+            </Principal>
+            <Dependent Role="personas">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuarios_perfiles">
+          <End Role="perfiles" Type="Self.perfiles" Multiplicity="1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfiles">
+              <PropertyRef Name="perfilId" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="perfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spq_Desencriptar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="valor" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spq_Encriptar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="valor" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="SalesManagerDBStoreContainer">
+          <EntitySet Name="entidades" EntityType="Self.entidades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="entidadesCampos" EntityType="Self.entidadesCampos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="menus" EntityType="Self.menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="perfiles" EntityType="Self.perfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="perfilMenus" EntityType="Self.perfilMenus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personas" EntityType="Self.personas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tipoCampos" EntityType="Self.tipoCampos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_entidadesCampos_entidades" Association="Self.FK_entidadesCampos_entidades">
+            <End Role="entidades" EntitySet="entidades" />
+            <End Role="entidadesCampos" EntitySet="entidadesCampos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_entidadesCampos_tipoCampos" Association="Self.FK_entidadesCampos_tipoCampos">
+            <End Role="tipoCampos" EntitySet="tipoCampos" />
+            <End Role="entidadesCampos" EntitySet="entidadesCampos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_perfilMenus_menus" Association="Self.FK_perfilMenus_menus">
+            <End Role="menus" EntitySet="menus" />
+            <End Role="perfilMenus" EntitySet="perfilMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_perfilMenus_perfiles" Association="Self.FK_perfilMenus_perfiles">
+            <End Role="perfiles" EntitySet="perfiles" />
+            <End Role="perfilMenus" EntitySet="perfilMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_personas_usuarios" Association="Self.FK_personas_usuarios">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="personas" EntitySet="personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuarios_perfiles" Association="Self.FK_usuarios_perfiles">
+            <End Role="perfiles" EntitySet="perfiles" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SalesManagerDB" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="entidades">
+          <Key>
+            <PropertyRef Name="entidadId" />
+          </Key>
+          <Property Name="entidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ajax" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="entidadesCampos" Relationship="Self.FK_entidadesCampos_entidades" FromRole="entidades" ToRole="entidadesCampos" />
+        </EntityType>
+        <EntityType Name="entidadesCampos">
+          <Key>
+            <PropertyRef Name="entidadCampoId" />
+          </Key>
+          <Property Name="entidadCampoId" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="entidadId" Type="Int32" Nullable="false" />
+          <Property Name="tipoCampoId" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="class" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="minLength" Type="Int32" />
+          <Property Name="maxLength" Type="Int32" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="placeholder" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="required" Type="Boolean" Nullable="false" />
+          <Property Name="cols" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="onchange" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="onfocus" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="onclick" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" />
+          <NavigationProperty Name="entidades" Relationship="Self.FK_entidadesCampos_entidades" FromRole="entidadesCampos" ToRole="entidades" />
+          <NavigationProperty Name="tipoCampos" Relationship="Self.FK_entidadesCampos_tipoCampos" FromRole="entidadesCampos" ToRole="tipoCampos" />
+        </EntityType>
+        <EntityType Name="perfiles">
+          <Key>
+            <PropertyRef Name="perfilId" />
+          </Key>
+          <Property Name="perfilId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_usuarios_perfiles" FromRole="perfiles" ToRole="usuarios" />
+          <NavigationProperty Name="perfilMenus" Relationship="SalesManagerDB.FK_perfilMenus_perfiles" FromRole="perfiles" ToRole="perfilMenus" />
+        </EntityType>
+        <EntityType Name="personas">
+          <Key>
+            <PropertyRef Name="personaId" />
+          </Key>
+          <Property Name="personaId" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuarioId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="titulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="amaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_personas_usuarios" FromRole="personas" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tipoCampos">
+          <Key>
+            <PropertyRef Name="tipoCampoId" />
+          </Key>
+          <Property Name="tipoCampoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="entidadesCampos" Relationship="Self.FK_entidadesCampos_tipoCampos" FromRole="tipoCampos" ToRole="entidadesCampos" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="usuarioId" />
+          </Key>
+          <Property Name="usuarioId" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="perfilId" Type="Int32" Nullable="false" />
+          <Property Name="GUID" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="perfiles" Relationship="Self.FK_usuarios_perfiles" FromRole="usuarios" ToRole="perfiles" />
+          <NavigationProperty Name="personas" Relationship="Self.FK_personas_usuarios" FromRole="usuarios" ToRole="personas" />
+        </EntityType>
+        <Association Name="FK_entidadesCampos_entidades">
+          <End Role="entidades" Type="Self.entidades" Multiplicity="1" />
+          <End Role="entidadesCampos" Type="Self.entidadesCampos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entidades">
+              <PropertyRef Name="entidadId" />
+            </Principal>
+            <Dependent Role="entidadesCampos">
+              <PropertyRef Name="entidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_entidadesCampos_tipoCampos">
+          <End Role="tipoCampos" Type="Self.tipoCampos" Multiplicity="1" />
+          <End Role="entidadesCampos" Type="Self.entidadesCampos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipoCampos">
+              <PropertyRef Name="tipoCampoId" />
+            </Principal>
+            <Dependent Role="entidadesCampos">
+              <PropertyRef Name="tipoCampoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuarios_perfiles">
+          <End Role="perfiles" Type="Self.perfiles" Multiplicity="1" />
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfiles">
+              <PropertyRef Name="perfilId" />
+            </Principal>
+            <Dependent Role="usuarios">
+              <PropertyRef Name="perfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_personas_usuarios">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="0..1" />
+          <End Role="personas" Type="Self.personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="usuarioId" />
+            </Principal>
+            <Dependent Role="personas">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="entidades" EntityType="Self.entidades" />
+          <EntitySet Name="entidadesCampos" EntityType="Self.entidadesCampos" />
+          <EntitySet Name="perfiles" EntityType="Self.perfiles" />
+          <EntitySet Name="personas" EntityType="Self.personas" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tipoCampos" EntityType="Self.tipoCampos" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" />
+          <AssociationSet Name="FK_entidadesCampos_entidades" Association="Self.FK_entidadesCampos_entidades">
+            <End Role="entidades" EntitySet="entidades" />
+            <End Role="entidadesCampos" EntitySet="entidadesCampos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_entidadesCampos_tipoCampos" Association="Self.FK_entidadesCampos_tipoCampos">
+            <End Role="tipoCampos" EntitySet="tipoCampos" />
+            <End Role="entidadesCampos" EntitySet="entidadesCampos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuarios_perfiles" Association="Self.FK_usuarios_perfiles">
+            <End Role="perfiles" EntitySet="perfiles" />
+            <End Role="usuarios" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_personas_usuarios" Association="Self.FK_personas_usuarios">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="personas" EntitySet="personas" />
+          </AssociationSet>
+          <FunctionImport Name="spq_Desencriptar" ReturnType="Collection(String)">
+          <Parameter Name="valor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spq_Encriptar" ReturnType="Collection(String)">
+          <Parameter Name="valor" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="menus" EntityType="SalesManagerDB.menus" />
+          <EntitySet Name="perfilMenus" EntityType="SalesManagerDB.perfilMenus" />
+          <AssociationSet Name="FK_perfilMenus_menus" Association="SalesManagerDB.FK_perfilMenus_menus">
+            <End Role="menus" EntitySet="menus" />
+            <End Role="perfilMenus" EntitySet="perfilMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_perfilMenus_perfiles" Association="SalesManagerDB.FK_perfilMenus_perfiles">
+            <End Role="perfiles" EntitySet="perfiles" />
+            <End Role="perfilMenus" EntitySet="perfilMenus" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="menus">
+          <Key>
+            <PropertyRef Name="id_menu" />
+          </Key>
+          <Property Name="id_menu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_menu_padre" Type="Int32" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="menu" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="url_mvc" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="openInNewWindow" Type="Boolean" Nullable="false" />
+          <Property Name="icon_ad" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="perfilMenus" Relationship="SalesManagerDB.FK_perfilMenus_menus" FromRole="menus" ToRole="perfilMenus" />
+        </EntityType>
+        <EntityType Name="perfilMenus">
+          <Key>
+            <PropertyRef Name="perfilMenuId" />
+          </Key>
+          <Property Name="perfilMenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_menu" Type="Int32" Nullable="false" />
+          <Property Name="perfilId" Type="Int32" Nullable="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="menus" Relationship="SalesManagerDB.FK_perfilMenus_menus" FromRole="perfilMenus" ToRole="menus" />
+          <NavigationProperty Name="perfiles" Relationship="SalesManagerDB.FK_perfilMenus_perfiles" FromRole="perfilMenus" ToRole="perfiles" />
+        </EntityType>
+        <Association Name="FK_perfilMenus_menus">
+          <End Type="SalesManagerDB.menus" Role="menus" Multiplicity="1" />
+          <End Type="SalesManagerDB.perfilMenus" Role="perfilMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menus">
+              <PropertyRef Name="id_menu" />
+            </Principal>
+            <Dependent Role="perfilMenus">
+              <PropertyRef Name="id_menu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_perfilMenus_perfiles">
+          <End Type="SalesManagerDB.perfiles" Role="perfiles" Multiplicity="1" />
+          <End Type="SalesManagerDB.perfilMenus" Role="perfilMenus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfiles">
+              <PropertyRef Name="perfilId" />
+            </Principal>
+            <Dependent Role="perfilMenus">
+              <PropertyRef Name="perfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SalesManagerDBStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="entidades">
+            <EntityTypeMapping TypeName="SalesManagerDB.entidades">
+              <MappingFragment StoreEntitySet="entidades">
+                <ScalarProperty Name="entidadId" ColumnName="entidadId" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="ajax" ColumnName="ajax" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="entidadesCampos">
+            <EntityTypeMapping TypeName="SalesManagerDB.entidadesCampos">
+              <MappingFragment StoreEntitySet="entidadesCampos">
+                <ScalarProperty Name="entidadCampoId" ColumnName="entidadCampoId" />
+                <ScalarProperty Name="entidadId" ColumnName="entidadId" />
+                <ScalarProperty Name="tipoCampoId" ColumnName="tipoCampoId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="class" ColumnName="class" />
+                <ScalarProperty Name="minLength" ColumnName="minLength" />
+                <ScalarProperty Name="maxLength" ColumnName="maxLength" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="placeholder" ColumnName="placeholder" />
+                <ScalarProperty Name="required" ColumnName="required" />
+                <ScalarProperty Name="cols" ColumnName="cols" />
+                <ScalarProperty Name="onchange" ColumnName="onchange" />
+                <ScalarProperty Name="onfocus" ColumnName="onfocus" />
+                <ScalarProperty Name="onclick" ColumnName="onclick" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="perfiles">
+            <EntityTypeMapping TypeName="SalesManagerDB.perfiles">
+              <MappingFragment StoreEntitySet="perfiles">
+                <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personas">
+            <EntityTypeMapping TypeName="SalesManagerDB.personas">
+              <MappingFragment StoreEntitySet="personas">
+                <ScalarProperty Name="personaId" ColumnName="personaId" />
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apaterno" ColumnName="apaterno" />
+                <ScalarProperty Name="amaterno" ColumnName="amaterno" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SalesManagerDB.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipoCampos">
+            <EntityTypeMapping TypeName="SalesManagerDB.tipoCampos">
+              <MappingFragment StoreEntitySet="tipoCampos">
+                <ScalarProperty Name="tipoCampoId" ColumnName="tipoCampoId" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuarios">
+            <EntityTypeMapping TypeName="SalesManagerDB.usuarios">
+              <MappingFragment StoreEntitySet="usuarios">
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spq_Desencriptar" FunctionName="SalesManagerDB.Store.spq_Desencriptar" />
+          <FunctionImportMapping FunctionImportName="spq_Encriptar" FunctionName="SalesManagerDB.Store.spq_Encriptar" />
+          <EntitySetMapping Name="menus">
+            <EntityTypeMapping TypeName="SalesManagerDB.menus">
+              <MappingFragment StoreEntitySet="menus">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="icon_ad" ColumnName="icon_ad" />
+                <ScalarProperty Name="openInNewWindow" ColumnName="openInNewWindow" />
+                <ScalarProperty Name="url_mvc" ColumnName="url_mvc" />
+                <ScalarProperty Name="menu" ColumnName="menu" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id_menu_padre" ColumnName="id_menu_padre" />
+                <ScalarProperty Name="id_menu" ColumnName="id_menu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="perfilMenus">
+            <EntityTypeMapping TypeName="SalesManagerDB.perfilMenus">
+              <MappingFragment StoreEntitySet="perfilMenus">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="perfilId" ColumnName="perfilId" />
+                <ScalarProperty Name="id_menu" ColumnName="id_menu" />
+                <ScalarProperty Name="perfilMenuId" ColumnName="perfilMenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

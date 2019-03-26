@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="601240b776e04ad49d3f43beecee2f01" Name="Diagram1">
+        <EntityTypeShape EntityType="SalesManagerDB.entidades" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesManagerDB.entidadesCampos" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesManagerDB.perfiles" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesManagerDB.personas" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesManagerDB.sysdiagrams" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesManagerDB.tipoCampos" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SalesManagerDB.usuarios" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="SalesManagerDB.FK_entidadesCampos_entidades" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesManagerDB.FK_entidadesCampos_tipoCampos" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesManagerDB.FK_usuarios_perfiles" ManuallyRouted="false" />
+        <AssociationConnector Association="SalesManagerDB.FK_personas_usuarios" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SalesManagerDB.menus" Width="1.5" PointX="0.75" PointY="16" />
+        <EntityTypeShape EntityType="SalesManagerDB.perfilMenus" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="SalesManagerDB.FK_perfilMenus_menus" />
+        <AssociationConnector Association="SalesManagerDB.FK_perfilMenus_perfiles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

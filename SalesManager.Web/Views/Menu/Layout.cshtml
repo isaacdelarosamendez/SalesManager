@@ -1,0 +1,80 @@
+﻿@{
+    SalesManager.Web.Controllers.MenuController o = new SalesManager.Web.Controllers.MenuController();
+    List<SalesManager.Entities.Portal.MenuViewModel> Model = o.TraeMenu();
+
+    var usuario = (SalesManager.Models.DB.usuarios)System.Web.HttpContext.Current.Session["usuario"];
+    SalesManager.Models.DB.usuarios CurrentUser = (SalesManager.Models.DB.usuarios)HttpContext.Current.Session["usuario"];
+
+    String namePath = System.Web.Configuration.WebConfigurationManager.AppSettings["application_path"];
+    String host = HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.PathAndQuery, "") + namePath;
+
+    String urlImg = "";
+}
+<div class="sidebar-menu">
+    <div class="sidebar-menu-inner">
+        <header class="logo-env">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="~/Assets/images/logo@2x.png" width="120" alt="" />
+                </a>
+            </div>
+            <div class="sidebar-collapse">
+                <a href="#" class="sidebar-collapse-icon">
+                    <i class="entypo-menu"></i>
+                </a>
+            </div>
+            <div class="sidebar-mobile-menu visible-xs">
+                <a href="#" class="with-animation">
+                    <i class="entypo-menu"></i>
+                </a>
+            </div>
+        </header>
+        <ul class="main-menu" id="main-menu">
+
+        </ul>
+</div>
+</div>
+<script>
+    function traePadre(id, texto, idPadre, icono) {
+        var li = document.createElement("li");
+        li.id = "grupo" + id;
+        li.className = "has-sub"
+        li.innerHTML = "<a href=''><i class='" + icono +"'></i><span class='title'>" + texto + "</span></a><ul  id='ul" + id + "'></ul>";// "<a href='#'><i class='" + icono + "'></i> <span>" + texto + "</span> <span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span></a> <ul class='treeview-menu' id='ul" + id + "'></ul>";
+
+        if (idPadre == 0) {
+            document.getElementById("main-menu").appendChild(li);
+        } else {
+            document.getElementById("ul" + idPadre).appendChild(li);
+        }
+
+    }
+    function traeHijo(id, texto, url, idPadre, newWindow) {
+        var li = document.createElement("li");
+        if (newWindow) {
+            li.innerHTML = "<a style='cursor:pointer;' onclick='OpenNewWindow(&apos;@host/" + url + "&apos;,&apos;" + texto + "&apos;);'>" + + texto + "</a>";
+        } else {
+            li.innerHTML = "<a href='@host/" + url + "'><span class='title'>" + texto + "</span></a>";/// "<a href='@host/" + url + "'>" + "<i class='fa fa-circle-o'></i>" + texto + "</a>";
+        }
+        document.getElementById("ul" + idPadre).appendChild(li);
+    }
+</script>
+@{
+
+    foreach (var item in Model)
+    {
+
+        var hijos = Model.Where(x => x.padreId == item.id).ToList().Count();
+        if (hijos > 0)
+        {
+            <script>
+                traePadre(@item.id,'@item.text',@item.padreId, '@item.icon_ad');
+            </script>
+        }
+        else
+        {
+            <script>
+                traeHijo(@item.id, '@item.text', '@item.url', @item.padreId,@item.openInNewWindow.ToString().ToLower());
+            </script>
+        }
+    }
+}
