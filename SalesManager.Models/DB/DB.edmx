@@ -10,9 +10,18 @@
             <PropertyRef Name="entidadId" />
           </Key>
           <Property Name="entidadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PK" Type="varchar" MaxLength="50" />
           <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="8000" Nullable="false" />
           <Property Name="ajax" Type="varchar" MaxLength="250" />
+          <Property Name="actionIndex" Type="varchar" MaxLength="50" />
+          <Property Name="actionCreate" Type="varchar" MaxLength="50" />
+          <Property Name="actionUpdate" Type="varchar" MaxLength="50" />
+          <Property Name="actionDelete" Type="varchar" MaxLength="50" />
+          <Property Name="controller" Type="varchar" MaxLength="50" />
+          <Property Name="query" Type="varchar" MaxLength="8000" />
+          <Property Name="queryUpdate" Type="varchar" MaxLength="8000" />
+          <Property Name="queryDelete" Type="varchar" MaxLength="8000" />
           <Property Name="activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="entidadesCampos">
@@ -21,6 +30,7 @@
           </Key>
           <Property Name="entidadCampoId" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="entidadId" Type="int" Nullable="false" />
+          <Property Name="isPK" Type="bit" />
           <Property Name="tipoCampoId" Type="int" Nullable="false" />
           <Property Name="id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="title" Type="varchar" MaxLength="250" Nullable="false" />
@@ -34,7 +44,11 @@
           <Property Name="onchange" Type="varchar" MaxLength="250" />
           <Property Name="onfocus" Type="varchar" MaxLength="250" />
           <Property Name="onclick" Type="varchar" MaxLength="250" />
-          <Property Name="activo" Type="bit" />
+          <Property Name="valueDefault" Type="varchar" MaxLength="250" />
+          <Property Name="query" Type="varchar" MaxLength="8000" />
+          <Property Name="orden" Type="int" />
+          <Property Name="readOnly" Type="bit" />
+          <Property Name="activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="menus">
           <Key>
@@ -43,7 +57,7 @@
           <Property Name="id_menu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_menu_padre" Type="int" />
           <Property Name="name" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="menu" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="menu" Type="varchar" MaxLength="250" />
           <Property Name="url_mvc" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="openInNewWindow" Type="bit" Nullable="false" />
           <Property Name="icon_ad" Type="varchar" MaxLength="250" Nullable="false" />
@@ -237,6 +251,15 @@
           <Property Name="ajax" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="entidadesCampos" Relationship="Self.FK_entidadesCampos_entidades" FromRole="entidades" ToRole="entidadesCampos" />
+          <Property Name="actionCreate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="actionUpdate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="controller" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="query" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="actionIndex" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="actionDelete" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="queryUpdate" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="queryDelete" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="entidadesCampos">
           <Key>
@@ -257,9 +280,14 @@
           <Property Name="onchange" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="onfocus" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="onclick" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="activo" Type="Boolean" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="entidades" Relationship="Self.FK_entidadesCampos_entidades" FromRole="entidadesCampos" ToRole="entidades" />
           <NavigationProperty Name="tipoCampos" Relationship="Self.FK_entidadesCampos_tipoCampos" FromRole="entidadesCampos" ToRole="tipoCampos" />
+          <Property Name="valueDefault" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="query" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="orden" Type="Int32" />
+          <Property Name="isPK" Type="Boolean" />
+          <Property Name="readOnly" Type="Boolean" />
         </EntityType>
         <EntityType Name="perfiles">
           <Key>
@@ -415,7 +443,7 @@
           <Property Name="id_menu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_menu_padre" Type="Int32" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="menu" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="menu" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="url_mvc" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="openInNewWindow" Type="Boolean" Nullable="false" />
           <Property Name="icon_ad" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
@@ -466,6 +494,15 @@
           <EntitySetMapping Name="entidades">
             <EntityTypeMapping TypeName="SalesManagerDB.entidades">
               <MappingFragment StoreEntitySet="entidades">
+                <ScalarProperty Name="queryDelete" ColumnName="queryDelete" />
+                <ScalarProperty Name="queryUpdate" ColumnName="queryUpdate" />
+                <ScalarProperty Name="actionDelete" ColumnName="actionDelete" />
+                <ScalarProperty Name="PK" ColumnName="PK" />
+                <ScalarProperty Name="actionIndex" ColumnName="actionIndex" />
+                <ScalarProperty Name="query" ColumnName="query" />
+                <ScalarProperty Name="controller" ColumnName="controller" />
+                <ScalarProperty Name="actionUpdate" ColumnName="actionUpdate" />
+                <ScalarProperty Name="actionCreate" ColumnName="actionCreate" />
                 <ScalarProperty Name="entidadId" ColumnName="entidadId" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
@@ -477,6 +514,11 @@
           <EntitySetMapping Name="entidadesCampos">
             <EntityTypeMapping TypeName="SalesManagerDB.entidadesCampos">
               <MappingFragment StoreEntitySet="entidadesCampos">
+                <ScalarProperty Name="readOnly" ColumnName="readOnly" />
+                <ScalarProperty Name="isPK" ColumnName="isPK" />
+                <ScalarProperty Name="orden" ColumnName="orden" />
+                <ScalarProperty Name="query" ColumnName="query" />
+                <ScalarProperty Name="valueDefault" ColumnName="valueDefault" />
                 <ScalarProperty Name="entidadCampoId" ColumnName="entidadCampoId" />
                 <ScalarProperty Name="entidadId" ColumnName="entidadId" />
                 <ScalarProperty Name="tipoCampoId" ColumnName="tipoCampoId" />

@@ -14,19 +14,17 @@
     <link rel="stylesheet" href="~/Assets/css/neon-forms.css">
     <link rel="stylesheet" href="~/Assets/css/custom.css">
     <script src="~/Assets/js/jquery-1.11.3.min.js"></script>
+    <link href="~/Assets/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-</head>
-<body class="page-body  page-left-in">
-    <div class="page-container">
-
-        @Html.Partial("../Menu/Layout")
-        <div class="main-content">
-            <h2>@ViewBag.Title</h2>
-            <hr />
-            @RenderBody()
-        </div>
-    </div>
-    <script src="~/Scripts/_Layout.js"></script>
+    <style type="text/css">
+        .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+            position: relative;
+            min-height: 1px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 3px;
+        }
+    </style>
     <link rel="stylesheet" href="~/Assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
     <link rel="stylesheet" href="~/Assets/js/rickshaw/rickshaw.min.css">
     <script src="~/Assets/js/gsap/TweenMax.min.js"></script>
@@ -45,6 +43,31 @@
     <script src="~/Assets/js/toastr.js"></script>
     <script src="~/Assets/js/neon-custom.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Assets/js/select2.full.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script src="~/Scripts/_Layout.js"></script>
+</head>
+<body class="page-body">
+    <div class="page-container  sidebar-collapsed">
+
+        @Html.Partial("../Menu/Layout")
+        <div class="main-content">
+            <h2>@ViewBag.Title</h2>
+            <hr />
+            @RenderBody()
+        </div>
+    </div>
+
 </body>
 </html>

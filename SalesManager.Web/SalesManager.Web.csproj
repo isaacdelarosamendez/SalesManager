@@ -199,6 +199,8 @@
     <Content Include="Assets\css\neon-forms.css" />
     <Content Include="Assets\css\neon-rtl.css" />
     <Content Include="Assets\css\neon-theme.css" />
+    <Content Include="Assets\css\select2.css" />
+    <Content Include="Assets\css\select2.min.css" />
     <Content Include="Assets\css\skins\black.css" />
     <Content Include="Assets\css\skins\blue.css" />
     <Content Include="Assets\css\skins\cafe.css" />
@@ -1444,6 +1446,10 @@
     <Content Include="Assets\js\rickshaw\vendor\d3.v2.js" />
     <Content Include="Assets\js\rickshaw\vendor\d3.v3.js" />
     <Content Include="Assets\js\scrollMonitor.js" />
+    <Content Include="Assets\js\select2.full.js" />
+    <Content Include="Assets\js\select2.full.min.js" />
+    <Content Include="Assets\js\select2.js" />
+    <Content Include="Assets\js\select2.min.js" />
     <Content Include="Assets\js\select2\select2-bootstrap.css" />
     <Content Include="Assets\js\select2\select2-spinner.gif" />
     <Content Include="Assets\js\select2\select2.css" />
@@ -1911,6 +1917,7 @@
     <Content Include="Views\Catalogos\Create.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Menu\Layout.cshtml" />
+    <Content Include="Views\Catalogos\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1972,7 +1979,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52854</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52854/</IISUrl>
+          <IISUrl>http://localhost:52859/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

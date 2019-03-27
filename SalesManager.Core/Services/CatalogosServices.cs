@@ -44,5 +44,7 @@ namespace SalesManager.Core.Services
                 return ex.Message;
             }
         }
+
+       
     }
 }

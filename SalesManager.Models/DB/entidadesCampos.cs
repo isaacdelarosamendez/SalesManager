@@ -29,7 +29,12 @@ namespace SalesManager.Models.DB
         public string onchange { get; set; }
         public string onfocus { get; set; }
         public string onclick { get; set; }
-        public Nullable<bool> activo { get; set; }
+        public bool activo { get; set; }
+        public string valueDefault { get; set; }
+        public string query { get; set; }
+        public Nullable<int> orden { get; set; }
+        public Nullable<bool> isPK { get; set; }
+        public Nullable<bool> readOnly { get; set; }
     
         public virtual entidades entidades { get; set; }
         public virtual tipoCampos tipoCampos { get; set; }

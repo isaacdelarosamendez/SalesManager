@@ -1,0 +1,139 @@
+﻿@model SalesManager.Models.DB.entidades
+
+@{
+    /**/
+
+    ViewBag.Title = Model.nombre;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<SalesManager.Models.DB.entidadesCampos> campos = Model.entidadesCampos.Where(s => s.activo == true).OrderBy(s => s.orden).ToList();
+
+    var query = from a in campos
+                select new {
+                    id ="#" +a.id,
+                    key = a.id,
+                    type = a.type,
+                    query = a.query
+                };
+    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+    var jcampos = jss.Serialize(query.ToList());
+}
+
+@using (Ajax.BeginForm("Update", "Catalogos", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess", OnFailure = "OnFailure" }))
+{
+    <div class="row">
+        @foreach (var campo in campos)
+        {
+            string ID = campo.id + "|" + campo.type;
+            switch (campo.type)
+            {
+                case "select":
+                    <div class="col-sm-@campo.cols col-xs-12" style="display:@(campo.type.Equals("hidden") ? "none" : "")">
+                        <div class="col-sm-4 col-xs-12">
+                            <label>@campo.title</label>
+                        </div>
+                        <div class="col-sm-8 col-xs-12">
+                            <select class="@(campo.@class)" id="@campo.id" name="@ID">
+                            </select>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                    LlenarComboDinamico('#@campo.id', '@Url.Action("GetValuesByQuery", "Catalogos")', '@campo.query',0);
+
+                       
+                    </script>
+                    break;
+                case "checkbox":
+                    <div class="col-sm-@campo.cols col-xs-12" style="display:@(campo.type.Equals("hidden") ? "none" : "")">
+                        <div class="col-sm-12 col-xs-12">
+                            @Html.CheckBox(ID, campo.valueDefault.Equals("true"), new { id = campo.id })
+                            <label for="@ID">@campo.title</label>
+                        </div>
+
+                    </div>
+
+                    break;
+                default:
+                    <div class="col-sm-@campo.cols col-xs-12" style="display:@(campo.type.Equals("hidden") ? "none" : "")">
+                        <div class="col-sm-4 col-xs-12">
+                            <label>@campo.title</label>
+                        </div>
+                        <div class="col-sm-8 col-xs-12">
+                            <input id="@campo.id" name="@ID" type="@campo.type" class="@(campo.@class)" placeholder="@campo.placeholder"
+                                   @(campo.required ? "required" : "") />
+
+                        </div>
+                    </div>
+                    break;
+            }
+
+        }
+
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="col-xs-12">
+                <input id="tabla" name="tabla" type="text" value="@Model.nombre" style="display:none;" />
+                <input id="entidadId" name="entidadId" type="text" value="@Model.entidadId" style="display:none;" />
+                <input class="btn btn-primary" type="submit" value="Guardar" onclick="return confirm('¿Desea guardar este formulario?')" />
+
+                @Html.ActionLink("Cancelar", (Model.actionIndex + Model.entidadId.ToString()), Model.controller, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+
+}
+
+    <script type="text/javascript">
+     $(document).ready(function () {
+         var Data = JSON.parse('@Html.Raw(ViewBag.Data)');
+         var campos = JSON.parse('@Html.Raw(jcampos)');
+
+         $.each(Data, function (index, datos) {
+             for (var dato in datos) {
+                 $.each(campos, function (index, campo) {
+                     if (campo.key == dato) {
+                         switch (campo.type) {
+                             case "checkbox":
+                                 if (datos[dato].toString().toLowerCase() == "true") {
+                                     $(campo.id.toString()).prop('checked', datos[dato].toString().toLowerCase());
+                                 }
+                                 break;
+                             case "select":
+                                 var values = $(campo.id.toString() + ">option").map(function () { return $(this).val(); });
+                                 if (values.length == 0) {
+                                     LlenarComboDinamico(campo.id.toString(), '@Url.Action("GetValuesByQuery", "Catalogos")', campo.query.toString(), datos[dato]);
+                                 } else {
+                                     $(campo.id.toString()).val(datos[dato]);
+                                 }
+                                 break;
+                             default:
+                                 $(campo.id.toString()).val(datos[dato]);
+                                 break;
+                         }
+                     }
+                 });
+             }
+         });
+     });
+
+
+    function onSuccess(result) {
+
+        if (result == "") {
+            var url = '@Url.Action((Model.actionIndex + Model.entidadId.ToString()), Model.controller)';
+            AlertGO("Formulario guardado de manera correcta.", url);
+        } else {
+
+            ErrorMessage(result);
+        }
+    }
+    function OnFailure(result) {
+
+    }
+    </script>
+
+
+
+

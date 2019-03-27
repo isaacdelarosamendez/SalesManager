@@ -6,44 +6,69 @@
     ViewBag.Title = Model.nombre;
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<SalesManager.Models.DB.entidadesCampos> campos = Model.entidadesCampos.ToList();
+    List<SalesManager.Models.DB.entidadesCampos> campos = Model.entidadesCampos.Where(s =>s.activo == true).OrderBy(s => s.orden).ToList();
 }
 
 @using (Ajax.BeginForm("Create", "Catalogos", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess", OnFailure = "OnFailure" }))
 {
-    <div class="row">
-        @foreach (var campo in campos)
+<div class="row">
+    @foreach (var campo in campos)
+    {
+        string ID = campo.id + "|" + campo.type;
+        switch (campo.type)
         {
-            string ID = campo.id + "|" + campo.type;
-            <div class="col-sm-@campo.cols col-xs-12" style="display:@(campo.type.Equals("hidden")?"none":"")">
-                <div class="col-sm-4 col-xs-12">
-                    <label>@campo.title</label>
+            case "select":
+                <div class="col-sm-@campo.cols col-xs-12" style="display:@(campo.type.Equals("hidden")?"none":"")">
+                    <div class="col-sm-4 col-xs-12">
+                        <label>@campo.title</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-12">
+                        <select class="@(campo.@class)" id="@campo.id" name="@ID">
+                        </select>
+                    </div>
                 </div>
-                <div class="col-sm-8 col-xs-12">
-                    @switch (campo.type)
-                    {
-                        case "text":
-                        case "password":
-                        case "date":
-                        case "date-time":
-                        case "number":
-                            <input id="@ID" name="@ID" type="@campo.type" class="@(campo.@class)" placeholder="@campo.placeholder" @(campo.required ? "required='El campo " + campo.title + " es requerido'" : "") />
-                            break;
-                        default:
-                            break;
-                    }
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                    LlenarComboDinamico('#@campo.id', '@Url.Action("GetValuesByQuery", "Catalogos")', '@campo.query',0);
+
+                    }); </script>
+                break;
+            case "checkbox":
+                <div class="col-sm-@campo.cols col-xs-12" style="display:@(campo.type.Equals("hidden")?"none":"")">
+                    <div class="col-sm-12 col-xs-12">
+                            @Html.CheckBox(ID,campo.valueDefault.Equals("true"), new { id=ID })
+                            <label for="@ID">@campo.title</label>
+                        </div>
+
+                    </div>
+
+                break;
+            default:
+                <div class="col-sm-@campo.cols col-xs-12" style="display:@(campo.type.Equals("hidden")?"none":"")">
+                    <div class="col-sm-4 col-xs-12">
+                        <label>@campo.title</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-12">
+                        <input id="@ID" name="@ID" type="@campo.type" class="@(campo.@class)" placeholder="@campo.placeholder" 
+                               @(campo.required ? "required" : "") />
+
+                    </div>
                 </div>
-            </div>
+                break;
         }
 
-    </div>
+    }
+
+</div>
     <br />
     <div class="row">
         <div class="col-sm-12 col-xs-12">
             <div class="col-xs-12">
                 <input id="tabla" name="tabla" type="text" value="@Model.nombre" style="display:none;" />
                 <input id="entidadId" name="entidadId" type="text" value="@Model.entidadId" style="display:none;" />
-                <input class="btn btn-primary" type="submit" value="Guardar" />
+                <input class="btn btn-primary" type="submit" value="Guardar" onclick="return confirm('¿Desea guardar este formulario?')" />
+
+                @Html.ActionLink("Cancelar", (Model.actionIndex + Model.entidadId.ToString()), Model.controller, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
@@ -54,7 +79,8 @@
     function onSuccess(result) {
 
         if (result == "") {
-            SuccessMessage("Formulario guardado de manera correcta.");
+            var url = '@Url.Action((Model.actionIndex + Model.entidadId.ToString()), Model.controller)';
+            AlertGO("Formulario guardado de manera correcta.", url);
         } else {
 
             ErrorMessage(result);

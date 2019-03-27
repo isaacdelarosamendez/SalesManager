@@ -25,6 +25,15 @@ namespace SalesManager.Models.DB
         public string descripcion { get; set; }
         public string ajax { get; set; }
         public bool activo { get; set; }
+        public string actionCreate { get; set; }
+        public string actionUpdate { get; set; }
+        public string controller { get; set; }
+        public string query { get; set; }
+        public string actionIndex { get; set; }
+        public string PK { get; set; }
+        public string actionDelete { get; set; }
+        public string queryUpdate { get; set; }
+        public string queryDelete { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<entidadesCampos> entidadesCampos { get; set; }

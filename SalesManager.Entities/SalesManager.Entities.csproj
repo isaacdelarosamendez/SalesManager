@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formularios\CombosDinamicos.cs" />
     <Compile Include="Login\ResponseLogin.cs" />
     <Compile Include="Portal\MenuViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
