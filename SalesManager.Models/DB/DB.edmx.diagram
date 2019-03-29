@@ -20,6 +20,14 @@
         <EntityTypeShape EntityType="SalesManagerDB.perfilMenus" Width="1.5" PointX="3" PointY="0.75" />
         <AssociationConnector Association="SalesManagerDB.FK_perfilMenus_menus" />
         <AssociationConnector Association="SalesManagerDB.FK_perfilMenus_perfiles" />
+        <EntityTypeShape EntityType="SalesManagerDB.clientes" Width="1.5" PointX="12.125" PointY="4.125" />
+        <EntityTypeShape EntityType="SalesManagerDB.estados" Width="1.5" PointX="7.625" PointY="8.75" />
+        <EntityTypeShape EntityType="SalesManagerDB.municipios" Width="1.5" PointX="9.875" PointY="8.75" />
+        <EntityTypeShape EntityType="SalesManagerDB.paises" Width="1.5" PointX="5.375" PointY="9" />
+        <AssociationConnector Association="SalesManagerDB.FK_clientes_municipios" />
+        <AssociationConnector Association="SalesManagerDB.FK_clientes_usuarios" />
+        <AssociationConnector Association="SalesManagerDB.FK_estados_paises" />
+        <AssociationConnector Association="SalesManagerDB.FK_municipios_estados" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

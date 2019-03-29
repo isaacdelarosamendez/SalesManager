@@ -36,6 +36,10 @@ namespace SalesManager.Models.DB
         public virtual DbSet<usuarios> usuarios { get; set; }
         public virtual DbSet<menus> menus { get; set; }
         public virtual DbSet<perfilMenus> perfilMenus { get; set; }
+        public virtual DbSet<clientes> clientes { get; set; }
+        public virtual DbSet<estados> estados { get; set; }
+        public virtual DbSet<municipios> municipios { get; set; }
+        public virtual DbSet<paises> paises { get; set; }
     
         public virtual ObjectResult<string> spq_Desencriptar(string valor)
         {

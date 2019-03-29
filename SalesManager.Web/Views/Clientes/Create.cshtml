@@ -1,0 +1,137 @@
+﻿@model SalesManager.Models.DB.clientes
+
+@{
+    ViewBag.Title = "Nuevo Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    @using (Ajax.BeginForm("Create", "Clientes", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess", OnFailure = "OnFailure" }))
+    {
+        @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-sm-4"})
+            <div class="col-sm-8 col-xs-12">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.correo, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8 col-xs-12">
+                <input name="correo" class="form-control" type="email" />
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.telefono, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8 col-xs-12">
+                @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.razonSocial, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8 col-xs-12">
+                @Html.EditorFor(model => model.razonSocial, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.razonSocial, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.margen, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8 col-xs-12">
+                <input name="margen" class="form-control" type="number" />
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.monto, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8 col-xs-12">
+                <input name="monto" class="form-control" type="number" />
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.direccion, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8 col-xs-12">
+                @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.direccion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-sm-4" })
+            <div class="col-sm-8 col-xs-12">
+                @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12 text-right">
+            <div class="col-sm-12 col-xs-12">
+                <a class="btn btn-default" id="btnObtenerUbicacion" onclick="return getLocation();">Obtener Ubicación</a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div class="col-sm-12 col-xs-12">
+                @Html.CheckBox("esPropecto", true, new { id = "esPropecto" })
+                <label for="esPropecto">¿Es Prospecto?</label>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="col-md-offset-2 col-sm-8 col-xs-12">
+                <input type="submit" value="Guardar" onclick="return ValidateConfirm();" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+        <input type="text" name="latitud" id="latitud" style="display:none;" />
+        <input type="text" name="longitud" id="longitud" style="display:none;" />
+    }
+    <div class="col-sm-12 col-xs-12">
+        @Html.ActionLink("Regresar al listado", "Index")
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    function ValidateConfirm() {
+        return confirm('¿Desea guardar este cliente?');
+    }
+
+    function onSuccess(result) {
+
+        if (result == "") {
+            var url = '@Url.Action("Index","Clientes")';
+            AlertGO("Cliente guardado de manera correcta.", url);
+        } else {
+
+            ErrorMessage(result);
+        }
+    }
+    function OnFailure(result) {
+
+    }
+
+    
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        $("#latitud").val(position.coords.latitude);
+        $("#longitud").val(position.coords.longitude);
+       var value = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+        console.log(value);
+    }
+</script>
+
+

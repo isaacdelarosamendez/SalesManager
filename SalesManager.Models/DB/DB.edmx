@@ -5,6 +5,27 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SalesManagerDB.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="clientes">
+          <Key>
+            <PropertyRef Name="clienteId" />
+          </Key>
+          <Property Name="clienteId" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="250" />
+          <Property Name="telefono" Type="varchar" MaxLength="50" />
+          <Property Name="razonSocial" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="margen" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="monto" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="8000" />
+          <Property Name="municipioId" Type="int" />
+          <Property Name="observaciones" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="esProspecto" Type="bit" Nullable="false" />
+          <Property Name="ubicacion" Type="float" />
+          <Property Name="latitud" Type="float" />
+          <Property Name="longitud" Type="float" />
+          <Property Name="usuarioId" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="entidades">
           <Key>
             <PropertyRef Name="entidadId" />
@@ -50,6 +71,15 @@
           <Property Name="readOnly" Type="bit" />
           <Property Name="activo" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="estados">
+          <Key>
+            <PropertyRef Name="estadoId" />
+          </Key>
+          <Property Name="estadoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paisId" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="menus">
           <Key>
             <PropertyRef Name="id_menu" />
@@ -61,6 +91,23 @@
           <Property Name="url_mvc" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="openInNewWindow" Type="bit" Nullable="false" />
           <Property Name="icon_ad" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="municipios">
+          <Key>
+            <PropertyRef Name="municipioId" />
+          </Key>
+          <Property Name="municipioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estadoId" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paises">
+          <Key>
+            <PropertyRef Name="paisId" />
+          </Key>
+          <Property Name="paisId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="perfiles">
@@ -124,6 +171,30 @@
           <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="activo" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_clientes_municipios">
+          <End Role="municipios" Type="Self.municipios" Multiplicity="0..1" />
+          <End Role="clientes" Type="Self.clientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="municipios">
+              <PropertyRef Name="municipioId" />
+            </Principal>
+            <Dependent Role="clientes">
+              <PropertyRef Name="municipioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_clientes_usuarios">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="1" />
+          <End Role="clientes" Type="Self.clientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="usuarioId" />
+            </Principal>
+            <Dependent Role="clientes">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_entidadesCampos_entidades">
           <End Role="entidades" Type="Self.entidades" Multiplicity="1" />
           <End Role="entidadesCampos" Type="Self.entidadesCampos" Multiplicity="*" />
@@ -145,6 +216,30 @@
             </Principal>
             <Dependent Role="entidadesCampos">
               <PropertyRef Name="tipoCampoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estados_paises">
+          <End Role="paises" Type="Self.paises" Multiplicity="1" />
+          <End Role="estados" Type="Self.estados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paises">
+              <PropertyRef Name="paisId" />
+            </Principal>
+            <Dependent Role="estados">
+              <PropertyRef Name="paisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_municipios_estados">
+          <End Role="estados" Type="Self.estados" Multiplicity="1" />
+          <End Role="municipios" Type="Self.municipios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estados">
+              <PropertyRef Name="estadoId" />
+            </Principal>
+            <Dependent Role="municipios">
+              <PropertyRef Name="estadoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -203,15 +298,27 @@
           <Parameter Name="valor" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="SalesManagerDBStoreContainer">
+          <EntitySet Name="clientes" EntityType="Self.clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="entidades" EntityType="Self.entidades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="entidadesCampos" EntityType="Self.entidadesCampos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="estados" EntityType="Self.estados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="menus" EntityType="Self.menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="municipios" EntityType="Self.municipios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="paises" EntityType="Self.paises" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="perfiles" EntityType="Self.perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="perfilMenus" EntityType="Self.perfilMenus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personas" EntityType="Self.personas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tipoCampos" EntityType="Self.tipoCampos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_clientes_municipios" Association="Self.FK_clientes_municipios">
+            <End Role="municipios" EntitySet="municipios" />
+            <End Role="clientes" EntitySet="clientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_clientes_usuarios" Association="Self.FK_clientes_usuarios">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="clientes" EntitySet="clientes" />
+          </AssociationSet>
           <AssociationSet Name="FK_entidadesCampos_entidades" Association="Self.FK_entidadesCampos_entidades">
             <End Role="entidades" EntitySet="entidades" />
             <End Role="entidadesCampos" EntitySet="entidadesCampos" />
@@ -219,6 +326,14 @@
           <AssociationSet Name="FK_entidadesCampos_tipoCampos" Association="Self.FK_entidadesCampos_tipoCampos">
             <End Role="tipoCampos" EntitySet="tipoCampos" />
             <End Role="entidadesCampos" EntitySet="entidadesCampos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estados_paises" Association="Self.FK_estados_paises">
+            <End Role="paises" EntitySet="paises" />
+            <End Role="estados" EntitySet="estados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_municipios_estados" Association="Self.FK_municipios_estados">
+            <End Role="estados" EntitySet="estados" />
+            <End Role="municipios" EntitySet="municipios" />
           </AssociationSet>
           <AssociationSet Name="FK_perfilMenus_menus" Association="Self.FK_perfilMenus_menus">
             <End Role="menus" EntitySet="menus" />
@@ -346,6 +461,7 @@
           <Property Name="activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="perfiles" Relationship="Self.FK_usuarios_perfiles" FromRole="usuarios" ToRole="perfiles" />
           <NavigationProperty Name="personas" Relationship="Self.FK_personas_usuarios" FromRole="usuarios" ToRole="personas" />
+          <NavigationProperty Name="clientes" Relationship="SalesManagerDB.FK_clientes_usuarios" FromRole="usuarios" ToRole="clientes" />
         </EntityType>
         <Association Name="FK_entidadesCampos_entidades">
           <End Role="entidades" Type="Self.entidades" Multiplicity="1" />
@@ -435,6 +551,26 @@
             <End Role="perfiles" EntitySet="perfiles" />
             <End Role="perfilMenus" EntitySet="perfilMenus" />
           </AssociationSet>
+          <EntitySet Name="clientes" EntityType="SalesManagerDB.clientes" />
+          <EntitySet Name="estados" EntityType="SalesManagerDB.estados" />
+          <EntitySet Name="municipios" EntityType="SalesManagerDB.municipios" />
+          <EntitySet Name="paises" EntityType="SalesManagerDB.paises" />
+          <AssociationSet Name="FK_clientes_municipios" Association="SalesManagerDB.FK_clientes_municipios">
+            <End Role="municipios" EntitySet="municipios" />
+            <End Role="clientes" EntitySet="clientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_clientes_usuarios" Association="SalesManagerDB.FK_clientes_usuarios">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="clientes" EntitySet="clientes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estados_paises" Association="SalesManagerDB.FK_estados_paises">
+            <End Role="paises" EntitySet="paises" />
+            <End Role="estados" EntitySet="estados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_municipios_estados" Association="SalesManagerDB.FK_municipios_estados">
+            <End Role="estados" EntitySet="estados" />
+            <End Role="municipios" EntitySet="municipios" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="menus">
           <Key>
@@ -482,6 +618,108 @@
             </Principal>
             <Dependent Role="perfilMenus">
               <PropertyRef Name="perfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="clientes">
+          <Key>
+            <PropertyRef Name="clienteId" />
+          </Key>
+          <Property Name="clienteId" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="razonSocial" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="margen" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="monto" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="direccion" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="municipioId" Type="Int32" />
+          <Property Name="observaciones" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="esProspecto" Type="Boolean" Nullable="false" />
+          <Property Name="ubicacion" Type="Double" />
+          <Property Name="usuarioId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="municipios" Relationship="SalesManagerDB.FK_clientes_municipios" FromRole="clientes" ToRole="municipios" />
+          <NavigationProperty Name="usuarios" Relationship="SalesManagerDB.FK_clientes_usuarios" FromRole="clientes" ToRole="usuarios" />
+          <Property Name="correo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="latitud" Type="Double" />
+          <Property Name="longitud" Type="Double" />
+        </EntityType>
+        <EntityType Name="estados">
+          <Key>
+            <PropertyRef Name="estadoId" />
+          </Key>
+          <Property Name="estadoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paisId" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="paises" Relationship="SalesManagerDB.FK_estados_paises" FromRole="estados" ToRole="paises" />
+          <NavigationProperty Name="municipios" Relationship="SalesManagerDB.FK_municipios_estados" FromRole="estados" ToRole="municipios" />
+        </EntityType>
+        <EntityType Name="municipios">
+          <Key>
+            <PropertyRef Name="municipioId" />
+          </Key>
+          <Property Name="municipioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estadoId" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="clientes" Relationship="SalesManagerDB.FK_clientes_municipios" FromRole="municipios" ToRole="clientes" />
+          <NavigationProperty Name="estados" Relationship="SalesManagerDB.FK_municipios_estados" FromRole="municipios" ToRole="estados" />
+        </EntityType>
+        <EntityType Name="paises">
+          <Key>
+            <PropertyRef Name="paisId" />
+          </Key>
+          <Property Name="paisId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="estados" Relationship="SalesManagerDB.FK_estados_paises" FromRole="paises" ToRole="estados" />
+        </EntityType>
+        <Association Name="FK_clientes_municipios">
+          <End Type="SalesManagerDB.municipios" Role="municipios" Multiplicity="0..1" />
+          <End Type="SalesManagerDB.clientes" Role="clientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="municipios">
+              <PropertyRef Name="municipioId" />
+            </Principal>
+            <Dependent Role="clientes">
+              <PropertyRef Name="municipioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_clientes_usuarios">
+          <End Type="SalesManagerDB.usuarios" Role="usuarios" Multiplicity="1" />
+          <End Type="SalesManagerDB.clientes" Role="clientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="usuarioId" />
+            </Principal>
+            <Dependent Role="clientes">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estados_paises">
+          <End Type="SalesManagerDB.paises" Role="paises" Multiplicity="1" />
+          <End Type="SalesManagerDB.estados" Role="estados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paises">
+              <PropertyRef Name="paisId" />
+            </Principal>
+            <Dependent Role="estados">
+              <PropertyRef Name="paisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_municipios_estados">
+          <End Type="SalesManagerDB.estados" Role="estados" Multiplicity="1" />
+          <End Type="SalesManagerDB.municipios" Role="municipios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estados">
+              <PropertyRef Name="estadoId" />
+            </Principal>
+            <Dependent Role="municipios">
+              <PropertyRef Name="estadoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -618,6 +856,57 @@
                 <ScalarProperty Name="perfilId" ColumnName="perfilId" />
                 <ScalarProperty Name="id_menu" ColumnName="id_menu" />
                 <ScalarProperty Name="perfilMenuId" ColumnName="perfilMenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clientes">
+            <EntityTypeMapping TypeName="SalesManagerDB.clientes">
+              <MappingFragment StoreEntitySet="clientes">
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="usuarioId" ColumnName="usuarioId" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="esProspecto" ColumnName="esProspecto" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="municipioId" ColumnName="municipioId" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+                <ScalarProperty Name="margen" ColumnName="margen" />
+                <ScalarProperty Name="razonSocial" ColumnName="razonSocial" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="clienteId" ColumnName="clienteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="estados">
+            <EntityTypeMapping TypeName="SalesManagerDB.estados">
+              <MappingFragment StoreEntitySet="estados">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="paisId" ColumnName="paisId" />
+                <ScalarProperty Name="estadoId" ColumnName="estadoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="municipios">
+            <EntityTypeMapping TypeName="SalesManagerDB.municipios">
+              <MappingFragment StoreEntitySet="municipios">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="estadoId" ColumnName="estadoId" />
+                <ScalarProperty Name="municipioId" ColumnName="municipioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paises">
+            <EntityTypeMapping TypeName="SalesManagerDB.paises">
+              <MappingFragment StoreEntitySet="paises">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="paisId" ColumnName="paisId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

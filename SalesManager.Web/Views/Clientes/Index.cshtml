@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SalesManager.Models.DB.clientes>
+
+@{
+    ViewBag.Title = "Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12 col-xs-12">
+        @Html.ActionLink("Nuevo Cliente", "Create",null,new { @class="btn btn-primary"})
+    </div>
+    <div class="col-sm-12 col-xs-12">
+
+        <div class="table table-responsive">
+            <table class="table table-responsive table-bordered table-condensed" id="dt">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            Nombre del cliente
+                        </th>
+                        <th>
+                            Razón Social
+                        </th>
+                        <th>
+                            Margen
+                        </th>
+                        <th>
+                            Monto
+                        </th>
+                        <th>
+                            ¿Es prospecto?
+                        </th>
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.clienteId }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.clienteId }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.clienteId })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.razonSocial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.margen)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.monto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.esProspecto)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        InitScroll("#dt");
+    });
+</script>

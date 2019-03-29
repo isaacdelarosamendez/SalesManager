@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DB\clientes.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -70,7 +73,16 @@
     <Compile Include="DB\entidadesCampos.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB\estados.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\menus.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\municipios.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\paises.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\perfiles.cs">

@@ -12,27 +12,21 @@ namespace SalesManager.Models.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class usuarios
+    public partial class municipios
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public usuarios()
+        public municipios()
         {
-            this.personas = new HashSet<personas>();
             this.clientes = new HashSet<clientes>();
         }
     
-        public decimal usuarioId { get; set; }
-        public int perfilId { get; set; }
-        public string GUID { get; set; }
-        public string usuario { get; set; }
-        public string password { get; set; }
-        public string correo { get; set; }
+        public int municipioId { get; set; }
+        public int estadoId { get; set; }
+        public byte[] nombre { get; set; }
         public bool activo { get; set; }
     
-        public virtual perfiles perfiles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<personas> personas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<clientes> clientes { get; set; }
+        public virtual estados estados { get; set; }
     }
 }
